@@ -43,5 +43,7 @@ nmap <leader>gd <Plug>(coc-definition)
 nmap <leader>gr <Plug>(coc-references)
 nmap <leader>gi <Plug>(coc-implementation)
 
-nmap <leader>n :set nonumber!<CR>
-
+nmap <Up> :exe "resize +4"<CR>
+nmap <Down> :exe "resize -4"<CR>
+nmap <Right> :exe "vertical resize +4"<CR>
+nmap <Left> :exe "vertical resize -4"<CR>
