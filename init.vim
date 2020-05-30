@@ -12,6 +12,8 @@ set tabstop=2
 set relativenumber
 set nu
 set cursorline
+set splitbelow
+set splitright
 
 let mapleader=' '
 
@@ -47,3 +49,8 @@ nmap <Up> :exe "resize +4"<CR>
 nmap <Down> :exe "resize -4"<CR>
 nmap <Right> :exe "vertical resize +4"<CR>
 nmap <Left> :exe "vertical resize -4"<CR>
+
+nnoremap <C-j> <C-w><C-j>
+nnoremap <C-l> <C-w><C-l>
+nnoremap <C-h> <C-w><C-h>
+nnoremap <C-k> <C-w><C-k>
