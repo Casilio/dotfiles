@@ -35,10 +35,12 @@ set signcolumn=yes
 
 autocmd vimenter * colorscheme gruvbox
 
-
 nmap <leader>gs :G<CR>
 
-nnoremap <C-p> :GFiles<CR>
+nmap <leader>ff :Files<CR>
+nmap <leader>fb :Buffers<CR>
+nmap <leader>fl :Lines<CR>
+nmap <leader>fa :Ag<CR>
 
 nmap <leader>gd <Plug>(coc-definition)
 nmap <leader>gr <Plug>(coc-references)
