@@ -14,6 +14,9 @@ set cursorline
 set splitbelow
 set splitright
 
+" I'm using fish and it makes fugitive sooooo slow. This is a workaround.
+set shell=/bin/bash\ --login
+
 let mapleader=' '
 
 call plug#begin('~/.vim/plugged')
