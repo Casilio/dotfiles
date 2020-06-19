@@ -15,6 +15,9 @@ set cursorline
 set splitbelow
 set splitright
 
+set undodir=~/.vimdir
+set undofile
+
 " I'm using fish and it makes fugitive sooooo slow. This is a workaround.
 set shell=/bin/bash\ --login
 
