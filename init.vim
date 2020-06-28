@@ -38,11 +38,25 @@ autocmd vimenter * colorscheme gruvbox
 let mapleader=' '
 
 nmap <leader>gs :G<CR>
+nmap <leader>gb :Gblame<CR>
 
 nmap <leader>ff :Files<CR>
 nmap <leader>fb :Buffers<CR>
 nmap <leader>fl :Lines<CR>
-nmap <leader>fa :Ag<CR>
+nmap <leader>fa :Rg<CR>
+
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --hidden --ignore-case --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:60%')
+  \           : fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%:hidden', '?'),
+  \   <bang>0)
+
+if has('nvim')
+  tnoremap <expr> <M-r> '<C-\><C-N>"'.nr2char(getchar()).'pi'
+endif
+
+vmap <c-f> "hy:Rg<Cr><M-r>h
 
 nmap <leader>gd <Plug>(coc-definition)
 nmap <leader>gr <Plug>(coc-references)
@@ -57,3 +71,4 @@ nnoremap <C-j> <C-w><C-j>
 nnoremap <C-l> <C-w><C-l>
 nnoremap <C-h> <C-w><C-h>
 nnoremap <C-k> <C-w><C-k>
+
