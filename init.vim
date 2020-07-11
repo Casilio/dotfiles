@@ -17,6 +17,10 @@ set list listchars=tab:>-,trail:·
 set undodir=~/.vimdir
 set undofile
 
+let g:netrw_liststyle = 1
+let g:netrw_browse_split = 2
+let g:netrw_winsize = 30
+
 " I'm using fish and it makes fugitive sooooo slow. This is a workaround.
 set shell=env\ bash
 
