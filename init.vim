@@ -14,11 +14,18 @@ set splitbelow
 set splitright
 set list!
 set list listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:+,trail:º
+set clipboard+=unnamedplus
 
 set undodir=~/.vimdir
 set undofile
 
 set mouse=
+
+set cmdheight=2
+set updatetime=300
+set shortmess+=c
+
+set signcolumn=yes
 
 let g:netrw_liststyle = 1
 let g:netrw_winsize = 30
@@ -49,7 +56,45 @@ let g:airline_mode_map = {
 let g:fzf_layout = { 'down': '40%' }
 let g:fzf_history_dir = '~/.local/share/fzf-history'
 
-set signcolumn=yes
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code.
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
 
 call plug#begin('~/.vim/plugged')
   Plug 'nanotech/jellybeans.vim'
@@ -67,6 +112,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+  Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 call plug#end()
 
 " autocmd vimenter * colorscheme jellybeans
@@ -110,20 +156,20 @@ nmap <leader>gd <Plug>(coc-definition)
 nmap <leader>gr <Plug>(coc-references)
 nmap <leader>gi <Plug>(coc-implementation)
 
-nmap <Up> :exe "resize +4"<CR>
-nmap <Down> :exe "resize -4"<CR>
-nmap <Right> :exe "vertical resize +4"<CR>
-nmap <Left> :exe "vertical resize -4"<CR>
+nmap <C-Up> :exe "resize +4"<CR>
+nmap <C-Down> :exe "resize -4"<CR>
+nmap <C-Right> :exe "vertical resize +4"<CR>
+nmap <C-Left> :exe "vertical resize -4"<CR>
 
 nnoremap <C-j> <C-w><C-j>
 nnoremap <C-l> <C-w><C-l>
 nnoremap <C-h> <C-w><C-h>
 nnoremap <C-k> <C-w><C-k>
 
-map <ScrollWheelUp> <C-Y>
-map <S-ScrollWheelUp> <C-U>
-map <ScrollWheelDown> <C-E>
-map <S-ScrollWheelDown> <C-D>
+nmap <ScrollWheelUp> <C-Y>
+nmap <S-ScrollWheelUp> <C-U>
+nmap <ScrollWheelDown> <C-E>
+nmap <S-ScrollWheelDown> <C-D>
 
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
