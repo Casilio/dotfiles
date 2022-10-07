@@ -14,7 +14,6 @@ set splitbelow
 set splitright
 set list!
 set list listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:+,trail:º
-set clipboard+=unnamedplus
 
 set undodir=~/.vimdir
 set undofile
@@ -27,10 +26,14 @@ set shortmess+=c
 
 set signcolumn=yes
 
+set nofoldenable
+set wrap
+
 let g:netrw_liststyle = 1
 let g:netrw_winsize = 30
 
 let g:airline_section_b = ''
+let g:airline_powerline_fonts = 1
 let g:airline_detect_spell = 0
 let g:airline_mode_map = {
       \ '__'     : '-',
@@ -87,6 +90,9 @@ nmap <leader>rn <Plug>(coc-rename)
 " Formatting selected code.
 xmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
+inoremap <silent><expr> <c-space> coc#refresh()
+inoremap <silent><expr> <c-@> coc#refresh()
+noremap <leader>tn :tabnew<cr>
 
 augroup mygroup
   autocmd!
@@ -113,6 +119,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
   Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
+  Plug 'Casilio/link-remote-line'
+
 call plug#end()
 
 " autocmd vimenter * colorscheme jellybeans
@@ -133,10 +142,12 @@ command! Gcommit Git commit
 
 nmap <leader>ff :Files<CR>
 nmap <leader>fb :Buffers<CR>
-nmap <leader>fl :Lines<CR>
+nmap <leader>fl :BLines<CR>
 nmap <leader>fa :Rg<CR>
 
 nmap <leader>cr :CocRestart<CR>
+
+nmap <leader>gl :LinkRemoteLine<CR>
 
 " nnoremap <leader>ff <cmd>Telescope find_files<cr>
 " nnoremap <leader>fa <cmd>Telescope live_grep<cr>
@@ -147,7 +158,7 @@ command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg --column --line-number --hidden --ignore-case --no-heading --color=always '.shellescape(<q-args>), 1,
   \   <bang>0 ? fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:20%')
-  \           : fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%:hidden', 'Ctrl-/'),
+  \           : fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%', 'Ctrl-/'),
   \   <bang>0)
 
 vmap <c-f> "hy:Rg<Cr><M-r>h
@@ -170,6 +181,13 @@ nmap <ScrollWheelUp> <C-Y>
 nmap <S-ScrollWheelUp> <C-U>
 nmap <ScrollWheelDown> <C-E>
 nmap <S-ScrollWheelDown> <C-D>
+
+" scroll floating window
+nnoremap <nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+nnoremap <nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+inoremap <nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+inoremap <nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+nnoremap <silent> <leader>h :call CocActionAsync('doHover')<cr>
 
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
