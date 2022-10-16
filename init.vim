@@ -111,6 +111,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'vim-airline/vim-airline'
 
   Plug 'tpope/vim-fugitive'
+  Plug 'kdheepak/lazygit.nvim'
   Plug 'unblevable/quick-scope'
   Plug 'joshdick/onedark.vim'
   Plug 'ap/vim-css-color'
@@ -121,7 +122,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
   Plug 'Casilio/link-remote-line'
-
 call plug#end()
 
 " autocmd vimenter * colorscheme jellybeans
@@ -136,7 +136,7 @@ colorscheme onedark
 
 let mapleader=' '
 
-nmap <leader>gs :G<CR>
+nmap <leader>gs :LazyGit<CR>
 nmap <leader>gb :Git blame<CR>
 command! Gcommit Git commit
 
@@ -149,10 +149,12 @@ nmap <leader>cr :CocRestart<CR>
 
 nmap <leader>gl :LinkRemoteLine<CR>
 
-" nnoremap <leader>ff <cmd>Telescope find_files<cr>
-" nnoremap <leader>fa <cmd>Telescope live_grep<cr>
-" nnoremap <leader>fb <cmd>Telescope buffers<cr>
-" nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fa <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+nnoremap <leader>fm <cmd>Telescope man_pages<cr>
+nnoremap <leader>fs <cmd>Telescope grep_string<cr>
 
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
