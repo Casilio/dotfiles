@@ -56,8 +56,8 @@ let g:airline_mode_map = {
       \ ''     : 'V',
       \ }
 
-let g:fzf_layout = { 'down': '40%' }
-let g:fzf_history_dir = '~/.local/share/fzf-history'
+" let g:fzf_layout = { 'down': '40%' }
+" let g:fzf_history_dir = '~/.local/share/fzf-history'
 
 " Use <c-space> to trigger completion.
 if has('nvim')
@@ -69,24 +69,7 @@ endif
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-
-" Symbol renaming.
-nmap <leader>rn <Plug>(coc-rename)
-
-" Formatting selected code.
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
-inoremap <silent><expr> <c-space> coc#refresh()
-inoremap <silent><expr> <c-@> coc#refresh()
 noremap <leader>tn :tabnew<cr>
-
-augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder.
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
 
 call plug#begin('~/.vim/plugged')
   Plug 'nanotech/jellybeans.vim'
@@ -99,7 +82,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-fugitive'
   Plug 'kdheepak/lazygit.nvim'
   Plug 'unblevable/quick-scope'
-  Plug 'joshdick/onedark.vim'
   Plug 'ap/vim-css-color'
 
   Plug 'nvim-lua/plenary.nvim'
@@ -110,15 +92,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'Casilio/link-remote-line'
 call plug#end()
 
-" autocmd vimenter * colorscheme jellybeans
-if (has("autocmd") && !has("gui_running"))
-  augroup colorset
-    autocmd!
-    let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
-    autocmd ColorScheme * call onedark#set_highlight("Normal", { "fg": s:white }) " `bg` will not be styled since there is no `bg` setting
-  augroup END
-endif
-colorscheme onedark
+autocmd vimenter * colorscheme jellybeans
 
 let mapleader=' '
 
@@ -142,12 +116,12 @@ nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 nnoremap <leader>fm <cmd>Telescope man_pages<cr>
 nnoremap <leader>fs <cmd>Telescope grep_string<cr>
 
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --hidden --ignore-case --no-heading --color=always '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:20%')
-  \           : fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%', 'Ctrl-/'),
-  \   <bang>0)
+" command! -bang -nargs=* Rg
+"   \ call fzf#vim#grep(
+"   \   'rg --column --line-number --hidden --ignore-case --no-heading --color=always '.shellescape(<q-args>), 1,
+"   \   <bang>0 ? fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:20%')
+"   \           : fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%', 'Ctrl-/'),
+"   \   <bang>0)
 
 vmap <c-f> "hy:Rg<Cr><M-r>h
 
@@ -184,3 +158,5 @@ if has('nvim')
   tnoremap <C-v><Esc> <Esc>
   au TermOpen * setlocal nospell
 endif
+
+lua require('basic')
