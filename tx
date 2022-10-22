@@ -1,0 +1,9 @@
+#!/bin/bash
+
+id=$RANDOM
+
+echo $id
+
+tmux new-session -d -s "$id"
+tmux new-window -t "$id":1 nvim
+tmux attach -t "$id"

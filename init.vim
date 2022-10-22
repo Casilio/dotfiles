@@ -56,9 +56,6 @@ let g:airline_mode_map = {
       \ ''     : 'V',
       \ }
 
-" let g:fzf_layout = { 'down': '40%' }
-" let g:fzf_history_dir = '~/.local/share/fzf-history'
-
 " Use <c-space> to trigger completion.
 if has('nvim')
   inoremap <silent><expr> <c-space> coc#refresh()
@@ -72,7 +69,6 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 noremap <leader>tn :tabnew<cr>
 
 call plug#begin('~/.vim/plugged')
-  Plug 'nanotech/jellybeans.vim'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
@@ -92,7 +88,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'Casilio/link-remote-line'
 call plug#end()
 
-autocmd vimenter * colorscheme jellybeans
+colorscheme habamax
 
 let mapleader=' '
 
@@ -115,13 +111,6 @@ nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 nnoremap <leader>fm <cmd>Telescope man_pages<cr>
 nnoremap <leader>fs <cmd>Telescope grep_string<cr>
-
-" command! -bang -nargs=* Rg
-"   \ call fzf#vim#grep(
-"   \   'rg --column --line-number --hidden --ignore-case --no-heading --color=always '.shellescape(<q-args>), 1,
-"   \   <bang>0 ? fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:20%')
-"   \           : fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%', 'Ctrl-/'),
-"   \   <bang>0)
 
 vmap <c-f> "hy:Rg<Cr><M-r>h
 
