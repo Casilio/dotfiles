@@ -70,25 +70,19 @@ noremap <leader>tn :tabnew<cr>
 
 call plug#begin('~/.vim/plugged')
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-  Plug 'junegunn/fzf.vim'
 
   Plug 'vim-airline/vim-airline'
 
-  Plug 'tpope/vim-fugitive'
   Plug 'kdheepak/lazygit.nvim'
   Plug 'unblevable/quick-scope'
   Plug 'ap/vim-css-color'
-
-  Plug 'nvim-lua/plenary.nvim'
-  Plug 'nvim-telescope/telescope.nvim'
-  Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-  Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+  Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
 
   Plug 'Casilio/link-remote-line'
+  Plug 'owickstrom/vim-colors-paramount'
 call plug#end()
 
-colorscheme habamax
+colorscheme paramount
 
 let mapleader=' '
 
@@ -96,21 +90,14 @@ nmap <leader>gs :LazyGit<CR>
 nmap <leader>gb :Git blame<CR>
 command! Gcommit Git commit
 
-nmap <leader>ff :Files<CR>
-nmap <leader>fb :Buffers<CR>
-nmap <leader>fl :BLines<CR>
-nmap <leader>fa :Rg<CR>
-
 nmap <leader>cr :CocRestart<CR>
 
 nmap <leader>gl :LinkRemoteLine<CR>
 
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fa <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-nnoremap <leader>fm <cmd>Telescope man_pages<cr>
-nnoremap <leader>fs <cmd>Telescope grep_string<cr>
+nnoremap <leader>ff <cmd>Clap files<cr>
+nnoremap <leader>fa <cmd>Clap live_grep<cr>
+nnoremap <leader>fb <cmd>Clap buffers<cr>
+nnoremap <leader>fr <cmd>Clap filer<cr>
 
 vmap <c-f> "hy:Rg<Cr><M-r>h
 
