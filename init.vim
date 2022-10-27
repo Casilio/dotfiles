@@ -80,9 +80,10 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'Casilio/link-remote-line'
   Plug 'owickstrom/vim-colors-paramount'
+  Plug 'cocopon/iceberg.vim'
 call plug#end()
 
-colorscheme paramount
+colorscheme iceberg
 
 let mapleader=' '
 
@@ -93,6 +94,8 @@ command! Gcommit Git commit
 nmap <leader>cr :CocRestart<CR>
 
 nmap <leader>gl :LinkRemoteLine<CR>
+
+let g:clap_layout = { 'relative': 'editor' }
 
 nnoremap <leader>ff <cmd>Clap files<cr>
 nnoremap <leader>fa <cmd>Clap live_grep<cr>
