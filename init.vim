@@ -18,6 +18,9 @@ set list listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:+,trail:º
 set undodir=~/.vimdir
 set undofile
 
+" match pairs of <>
+set mps+=<:>
+
 set mouse=
 
 set cmdheight=2
@@ -28,6 +31,8 @@ set signcolumn=yes
 
 set nofoldenable
 set wrap
+
+autocmd Filetype go setlocal noexpandtab
 
 let g:netrw_liststyle = 1
 let g:netrw_winsize = 30
@@ -69,18 +74,31 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 noremap <leader>tn :tabnew<cr>
 
 call plug#begin('~/.vim/plugged')
+  "lsp support for various languages
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+  "status bar. not sure i need this
   Plug 'vim-airline/vim-airline'
 
   Plug 'kdheepak/lazygit.nvim'
+  "find a char withing current line
   Plug 'unblevable/quick-scope'
+  "inline css colors
   Plug 'ap/vim-css-color'
+  "finder
   Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
 
+  " getting a link for remote line
   Plug 'Casilio/link-remote-line'
-  Plug 'owickstrom/vim-colors-paramount'
+
+  "theme
   Plug 'cocopon/iceberg.vim'
+
+  "embedded terminal
+  Plug 's1n7ax/nvim-terminal'
+
+  " ron syntax highlight
+  Plug 'ron-rs/ron.vim'
 call plug#end()
 
 colorscheme iceberg
@@ -98,7 +116,7 @@ nmap <leader>gl :LinkRemoteLine<CR>
 let g:clap_layout = { 'relative': 'editor' }
 
 nnoremap <leader>ff <cmd>Clap files<cr>
-nnoremap <leader>fa <cmd>Clap live_grep<cr>
+nnoremap <leader>fa <cmd>Clap grep<cr>
 nnoremap <leader>fb <cmd>Clap buffers<cr>
 nnoremap <leader>fr <cmd>Clap filer<cr>
 
