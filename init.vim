@@ -119,6 +119,7 @@ nnoremap <leader>ff <cmd>Clap files<cr>
 nnoremap <leader>fa <cmd>Clap grep<cr>
 nnoremap <leader>fb <cmd>Clap buffers<cr>
 nnoremap <leader>fr <cmd>Clap filer<cr>
+nnoremap <leader>fl <cmd>Clap lines<cr>
 
 vmap <c-f> "hy:Rg<Cr><M-r>h
 
