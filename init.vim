@@ -106,11 +106,14 @@ colorscheme iceberg
 
 let mapleader=' '
 
+command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
+
 nmap <leader>gs :LazyGit<CR>
 nmap <leader>gb :Git blame<CR>
 command! Gcommit Git commit
 
 nmap <leader>cr :CocRestart<CR>
+nmap <leader>cd :CocDiagnostic<CR>
 
 nmap <leader>gl :LinkRemoteLine<CR>
 
