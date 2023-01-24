@@ -1,7 +1,6 @@
 set ignorecase
 set iskeyword+=^/
 set scrolloff=2
-set spell
 
 set expandtab
 set shiftwidth=2
@@ -152,6 +151,8 @@ nnoremap <nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<
 inoremap <nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
 inoremap <nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
 nnoremap <silent> <leader>h :call CocActionAsync('doHover')<cr>
+
+command W w
 
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
