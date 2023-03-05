@@ -97,8 +97,8 @@ call plug#begin('~/.vim/plugged')
   "embedded terminal
   Plug 's1n7ax/nvim-terminal'
 
-  " ron syntax highlight
-  Plug 'ron-rs/ron.vim'
+  " project management
+  Plug 'ahmedkhalf/project.nvim'
 call plug#end()
 
 colorscheme iceberg
@@ -181,29 +181,8 @@ require('nvim-terminal').setup({
         height = 15,
     },
 
-    -- keymap to disable all the default keymaps
-    disable_default_keymaps = false,
-
     -- keymap to toggle open and close terminal window
     toggle_keymap = '<leader>;',
-
-    -- increase the window height by when you hit the keymap
-    window_height_change_amount = 2,
-
-    -- increase the window width by when you hit the keymap
-    window_width_change_amount = 2,
-
-    -- keymap to increase the window width
-    increase_width_keymap = '<leader><leader>+',
-
-    -- keymap to decrease the window width
-    decrease_width_keymap = '<leader><leader>-',
-
-    -- keymap to increase the window height
-    increase_height_keymap = '<leader>+',
-
-    -- keymap to decrease the window height
-    decrease_height_keymap = '<leader>-',
 
     terminals = {
         -- keymaps to open nth terminal
@@ -214,4 +193,9 @@ require('nvim-terminal').setup({
         {keymap = '<leader>5'},
     },
 })
+EOF
+
+" project manager setup
+lua << EOF
+  require("project_nvim").setup { }
 EOF
