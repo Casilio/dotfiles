@@ -73,17 +73,21 @@ call plug#begin('~/.vim/plugged')
   Plug 'kdheepak/lazygit.nvim'
 "  Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 "  Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+"
+  Plug 'stevearc/oil.nvim'
+  Plug 'kvrohit/rasmus.nvim'
 call plug#end()
 
-colorscheme onedark
+" colorscheme onedark
+colorscheme rasmus
 
 let mapleader=' '
-
 
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fa <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+nnoremap <leader>mm <cmd>make<cr>
 
 nnoremap <silent> <leader>gg :LazyGit<CR>
 
@@ -104,12 +108,108 @@ nmap <S-ScrollWheelDown> <C-D>
 
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
-" if has('nvim')
-"   tnoremap <M-[> <Esc>
-"   tnoremap <C-v><Esc> <Esc>
-"   au TermOpen * setlocal nospell
-" endif
+nmap <F5> :Build<cr>
+nmap <F6> :Run<cr>
 
 lua << END
 require('telescope').setup()
+
+if vim.g.neovide then
+  vim.o.guifont = "DM Mono:h11"
+  vim.g.neovide_scale_factor = 1.0
+  vim.g.neovide_scroll_animation_length = 0.1
+
+  vim.api.nvim_set_keymap("n", "<C-+>", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1<CR>", { silent = true })
+  vim.api.nvim_set_keymap("n", "<C-->", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1<CR>", { silent = true })
+  vim.api.nvim_set_keymap("n", "<C-0>", ":lua vim.g.neovide_scale_factor = 1<CR>", { silent = true })
+end
+
+require("oil").setup()
+
+vim.api.nvim_create_user_command("Ex", "Oil", {})
+
+function buildCommand()
+  vim.cmd.cclose()
+
+  if vim.fn.filereadable('./build.bat') ~= 0 then
+    return build("build.bat")
+  end
+
+  if vim.fn.filereadable('./build.sh') ~= 0 then
+    return build("build.sh")
+  end
+
+  print("no build file (build.(bat|sh))")
+  return 1
+end
+
+function runCommand()
+  if buildCommand() == 1 then
+    return
+  end
+
+  if vim.fn.filereadable("./run.bat") ~= 0 then
+    return execute("run.bat")
+  end
+
+  if vim.fn.filereadable('./run.sh') ~= 0 then
+    return execute("run.sh")
+  end
+
+  print("no run file (run.(bat|sh))")
+  return 0
+end
+
+vim.api.nvim_create_user_command('Build', buildCommand, {nargs = 0})
+vim.api.nvim_create_user_command('Run', runCommand, {nargs = 0})
+
+vim.api.nvim_create_user_command('BuildDLL',
+  function(args)
+    vim.cmd.cclose()
+
+    if vim.fn.filereadable('./build_dll.bat') ~= 0 then
+      if build("build_dll.bat ") ~= 0 then
+        if args.restart then
+          vim.fn.system('type nul > restart')
+        else
+          vim.fn.system('type nul > reload')
+        end
+      end
+      return
+    end
+
+    print("no build file (build_dll.(bat|sh))")
+  end,
+  {nargs = 0, bang = true}
+)
+
+function execute(filename)
+  local out = vim.fn.systemlist(filename)
+  if vim.v.shell_error == 0 then
+    return 0
+  end
+
+  return 1
+end
+
+function build(filename)
+  if execute(filename) == 1 then
+    return 1
+  end
+
+  local files = {}
+  for _, file in pairs(out) do
+    for f,l,c,e in string.gmatch(file, "(.+)%((%d+):(%d+)%) (.*)") do
+      table.insert(
+        files, {filename = string.gsub(f, "%/", "\\"), lnum = l, col = c, text = e}
+      )
+    end
+  end
+
+  vim.fn.setqflist(files)
+  vim.cmd.copen()
+
+  return 1
+end
+
 END
