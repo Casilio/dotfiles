@@ -5,6 +5,7 @@ set ignorecase
 set iskeyword+=^/
 set scrolloff=5
 set nospell
+syntax off
 
 set expandtab
 set shiftwidth=2
@@ -58,9 +59,6 @@ let g:airline_mode_map = {
 
 
 call plug#begin('~/.vim/plugged')
-"  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-"  Plug 'junegunn/fzf.vim'
-
   Plug 'vim-airline/vim-airline'
 
   Plug 'unblevable/quick-scope'
@@ -71,15 +69,16 @@ call plug#begin('~/.vim/plugged')
   Plug 'nvim-telescope/telescope.nvim'
 
   Plug 'kdheepak/lazygit.nvim'
-"  Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-"  Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-"
   Plug 'stevearc/oil.nvim'
   Plug 'kvrohit/rasmus.nvim'
+  Plug 'morhetz/gruvbox'
+  Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 call plug#end()
 
 " colorscheme onedark
-colorscheme rasmus
+" colorscheme rasmus
+let g:gruvbox_contrast_dark = 'medium'
+colorscheme gruvbox
 
 let mapleader=' '
 
@@ -87,6 +86,7 @@ nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fa <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+nnoremap <leader>fr <cmd>Telescope resume<cr>
 nnoremap <leader>mm <cmd>make<cr>
 
 nnoremap <silent> <leader>gg :LazyGit<CR>
@@ -112,10 +112,12 @@ nmap <F5> :Build<cr>
 nmap <F6> :Run<cr>
 
 lua << END
+require("toggleterm").setup()
+
 require('telescope').setup()
 
 if vim.g.neovide then
-  vim.o.guifont = "DM Mono:h11"
+  vim.o.guifont = "DM Mono:h15"
   vim.g.neovide_scale_factor = 1.0
   vim.g.neovide_scroll_animation_length = 0.1
 
